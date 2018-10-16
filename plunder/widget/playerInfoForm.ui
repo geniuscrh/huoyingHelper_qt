@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>PlayerInfoForm</class>
+ <widget class="QWidget" name="PlayerInfoForm">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>373</width>
+    <height>549</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="../../image.qrc">
+    <normaloff>:/resource/image/ico/systemTray.png</normaloff>:/resource/image/ico/systemTray.png</iconset>
+  </property>
+ </widget>
+ <resources>
+  <include location="../../image.qrc"/>
+ </resources>
+ <connections/>
+</ui>

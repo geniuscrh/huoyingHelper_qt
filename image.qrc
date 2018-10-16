@@ -1,0 +1,15 @@
+<RCC>
+    <qresource prefix="/">
+        <file>resource/image/ico/systemTray.png</file>
+        <file>resource/image/ico/systemTrayMenu.png</file>
+        <file>resource/image/ico/MSN_48px_1121664_easyicon.net.png</file>
+        <file>resource/image/ico/Play_48px_1121679_easyicon.net.png</file>
+        <file>resource/image/ico/Refresh_48px_1121684_easyicon.net.png</file>
+        <file>resource/image/ico/Search_48px_1121687_easyicon.net.png</file>
+        <file>resource/image/ico/Shutdown_48px_1121553_easyicon.net.png</file>
+        <file>resource/image/ico/Tools_48px_1121697_easyicon.net.png</file>
+        <file>resource/image/ico/Twitter_48px_1121699_easyicon.net.png</file>
+        <file>resource/image/ico/Portal_48px_1121529_easyicon.net.png</file>
+        <file>resource/image/ico/Foobar_48px_1121452_easyicon.net.png</file>
+    </qresource>
+</RCC>
