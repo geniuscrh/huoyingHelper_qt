@@ -99,60 +99,11 @@
      </property>
     </widget>
    </widget>
-   <widget class="QGroupBox" name="groupBox_2">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>130</y>
-      <width>401</width>
-      <height>71</height>
-     </rect>
-    </property>
-    <property name="title">
-     <string>打劫</string>
-    </property>
-    <widget class="QPushButton" name="plunder_btn_1">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>20</y>
-       <width>75</width>
-       <height>31</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>第一个</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="plunder_ref_btn">
-     <property name="geometry">
-      <rect>
-       <x>110</x>
-       <y>20</y>
-       <width>75</width>
-       <height>31</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>刷新</string>
-     </property>
-    </widget>
-    <widget class="QLineEdit" name="dajieEdit">
-     <property name="geometry">
-      <rect>
-       <x>200</x>
-       <y>30</y>
-       <width>181</width>
-       <height>20</height>
-      </rect>
-     </property>
-    </widget>
-   </widget>
    <widget class="QPushButton" name="autoJibanBtn">
     <property name="geometry">
      <rect>
       <x>30</x>
-      <y>230</y>
+      <y>180</y>
       <width>75</width>
       <height>23</height>
      </rect>
@@ -164,8 +115,8 @@
    <widget class="QPushButton" name="autoXianjieBtn">
     <property name="geometry">
      <rect>
-      <x>240</x>
-      <y>230</y>
+      <x>250</x>
+      <y>290</y>
       <width>75</width>
       <height>23</height>
      </rect>
@@ -177,8 +128,8 @@
    <widget class="QPushButton" name="zuduiBtn">
     <property name="geometry">
      <rect>
-      <x>120</x>
-      <y>230</y>
+      <x>150</x>
+      <y>180</y>
       <width>75</width>
       <height>23</height>
      </rect>
@@ -190,8 +141,8 @@
    <widget class="QPushButton" name="qiangzheBtn">
     <property name="geometry">
      <rect>
-      <x>120</x>
-      <y>280</y>
+      <x>150</x>
+      <y>230</y>
       <width>75</width>
       <height>23</height>
      </rect>
@@ -204,7 +155,7 @@
     <property name="geometry">
      <rect>
       <x>30</x>
-      <y>280</y>
+      <y>230</y>
       <width>75</width>
       <height>23</height>
      </rect>

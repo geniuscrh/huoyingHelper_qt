@@ -5,12 +5,14 @@
 #include <QtGui>
 #include <ThreadMsg.h>
 
+#include "PointEntity.h"
+
 class AutoThread  : public QThread
 {
      Q_OBJECT
 public:
     AutoThread();
-    AutoThread(int type);
+    AutoThread(int type,PointEntity *point);
 
     //进行类别
     static const int THREAD_TYPE_ZUDUI=1001;//组队
@@ -34,8 +36,9 @@ protected:
 private :
     int m_type;
 
-    QString point_zhandoujieguo="960,580";
-    QString point_kaishizhandou="900,555";
+    PointEntity *m_point;
+
+
 
 };
 

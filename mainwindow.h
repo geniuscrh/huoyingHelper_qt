@@ -18,6 +18,9 @@
 #include <AutoThread.h>
 #include <ThreadMsg.h>
 
+#include "PointRepository.h"
+#include "PointEntity.h"
+
 namespace Ui {
 class MainWindow;
 }
@@ -56,9 +59,8 @@ public:
 private slots:
     void on_testBtn_clicked();
 
-    void on_plunder_ref_btn_clicked();
 
-    void on_plunder_btn_1_clicked();
+
 
 
 
@@ -66,7 +68,7 @@ private slots:
 
     void on_autoJibanBtn_clicked();
 
-    void on_dajieEdit_textChanged(const QString &arg1);
+
 
     void on_autoXianjieBtn_clicked();
 
@@ -87,6 +89,8 @@ private:
     HWND hWnd;
     HWND mainHWnd;
     PlayerNameChangeForm* playerNameChangeForm;
+
+    PointEntity * m_point;
 
     int test_index=1;
 

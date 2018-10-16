@@ -23,7 +23,9 @@ SOURCES += main.cpp\
     plunder/widget/playerNameChangeForm.cpp\
     plunder/dao/fontCodeDao.cpp \
     AutoThread.cpp \
-    ThreadMsg.cpp
+    ThreadMsg.cpp \
+    PointRepository.cpp \
+    PointEntity.cpp
 
 HEADERS+=  mainwindow.h \
     util/rgbutil.h \
@@ -32,7 +34,9 @@ HEADERS+=  mainwindow.h \
     plunder/widget/playerNameChangeForm.h \
     plunder/dao/fontCodeDao.h \
     AutoThread.h \
-    ThreadMsg.h
+    ThreadMsg.h \
+    PointRepository.h \
+    PointEntity.h
 
 FORMS    += mainwindow.ui \
     plunder/widget/playerInfoForm.ui \

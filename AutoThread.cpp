@@ -5,9 +5,10 @@ AutoThread::AutoThread()
 
 }
 
-AutoThread::AutoThread(int type)
+AutoThread::AutoThread(int type,PointEntity* point)
 {
     this->m_type=type;
+    this->m_point=point;
 }
 
 
@@ -21,20 +22,20 @@ void AutoThread::run(){
 
         while(1>0){
             msg.setOperateType(OP_TYPE_MOUSE_L_CLICK);
-            msg.setMsgString("1248,736");
+            msg.setMsgString(m_point->zuidui_jiangli);
             msg.setShowInfo("点击组队奖励");
             emit returnMsg(msg);
             Sleep(1000);
 
 
             msg.setOperateType(OP_TYPE_MOUSE_L_CLICK);
-            msg.setMsgString("760,600");
+            msg.setMsgString(m_point->zuidui_7w);
             msg.setShowInfo("点击7W组队");
             emit returnMsg(msg);
             Sleep(1000);
 
             msg.setOperateType(OP_TYPE_MOUSE_L_CLICK);
-            msg.setMsgString(point_kaishizhandou);
+            msg.setMsgString(m_point->common_kaishizhandou);
             msg.setShowInfo("点击开始战斗");
             emit returnMsg(msg);
             Sleep(1000);
@@ -50,21 +51,21 @@ void AutoThread::run(){
 
         while(1>0){
             msg.setOperateType(OP_TYPE_MOUSE_L_CLICK);
-            msg.setMsgString(point_zhandoujieguo);
+            msg.setMsgString(m_point->common_zhandoujieguo);
             msg.setShowInfo("点击战斗结果");
             emit returnMsg(msg);
             Sleep(2000);
 
 
             msg.setOperateType(OP_TYPE_MOUSE_L_CLICK);
-            msg.setMsgString("960,630");
+            msg.setMsgString(m_point->jiban_zhandoujieguo);
             msg.setShowInfo("点击段位结果");
             emit returnMsg(msg);
             Sleep(1000);
 
             msg.setOperateType(OP_TYPE_MOUSE_L_CLICK);
-            msg.setMsgString("850,750");
-            msg.setShowInfo("点击开始羁绊1");
+            msg.setMsgString(m_point->jiban_kaishizhandou);
+            msg.setShowInfo("点击开始羁绊");
             emit returnMsg(msg);
             Sleep(10*1000);
         }
@@ -79,14 +80,14 @@ void AutoThread::run(){
 
         while(1>0){
             msg.setOperateType(OP_TYPE_MOUSE_L_CLICK);
-            msg.setMsgString(point_zhandoujieguo);
+            msg.setMsgString(m_point->common_zhandoujieguo);
             msg.setShowInfo("点击战斗结果");
             emit returnMsg(msg);
             Sleep(4000);
 
 
             msg.setOperateType(OP_TYPE_MOUSE_L_CLICK);
-            msg.setMsgString("791,503");
+            msg.setMsgString(m_point->qiangzhe_tongguanjiangli);
             msg.setShowInfo("点击通关奖励");
             emit returnMsg(msg);
             Sleep(500);
@@ -94,25 +95,25 @@ void AutoThread::run(){
             Sleep(1000);
 
             msg.setOperateType(OP_TYPE_MOUSE_L_CLICK);
-            msg.setMsgString("1256,33");
+            msg.setMsgString(m_point->qiangzhe_qiangzhejianglin);
             msg.setShowInfo("点击强者降临");
             emit returnMsg(msg);
             Sleep(1000);
 
             msg.setOperateType(OP_TYPE_MOUSE_L_CLICK);
-            msg.setMsgString("1057,610");
+            msg.setMsgString(m_point->qiangzhe_axiuluo);
             msg.setShowInfo("点击阿修罗");
             emit returnMsg(msg);
             Sleep(500);
 
             msg.setOperateType(OP_TYPE_MOUSE_L_CLICK);
-            msg.setMsgString("608,500");
+            msg.setMsgString(m_point->qiangzhe_jinru);
             msg.setShowInfo("点击进入");
             emit returnMsg(msg);
             Sleep(6000);
 
             msg.setOperateType(OP_TYPE_MOUSE_L_CLICK);
-            msg.setMsgString(point_kaishizhandou);
+            msg.setMsgString(m_point->common_kaishizhandou);
             msg.setShowInfo("点击开始战斗");
             emit returnMsg(msg);
             Sleep(10*1000);

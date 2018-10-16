@@ -43,6 +43,7 @@ void MainWindow::initHwnd(){
         hWnd = FindWindowEx(hWnd, NULL, L"Chrome_RenderWidgetHostHWND", NULL);
 
 
+
     }else{
         hWnd = FindWindowEx(mainHWnd, NULL, L"iecontainerclass", NULL);
 
@@ -73,6 +74,13 @@ void MainWindow::initHwnd(){
         return;
     }else{
         //this->hide();
+        LPRECT lpRect;
+        GetWindowRect(hWnd,lpRect);
+
+        QString winSize=QString::number(lpRect->right-lpRect->left)+"*"+QString::number(lpRect->bottom-lpRect->top);
+        PointRepository *point_rep=new PointRepository(winSize);
+        m_point=point_rep->point();
+
         m_systemTray->show();
         m_systemTray->showMessage("信息","获取hWnd",QSystemTrayIcon::Information,5000);
     }
@@ -145,11 +153,13 @@ void MainWindow::on_autoXianjieBtn_clicked()
  * */
 void MainWindow::huoying_xianjie_auto_start(){
 
+    /*
     m_systemTray->showMessage("信息","开始仙界",QSystemTrayIcon::Information,5000);
     qRegisterMetaType<ThreadMsg>("ThreadMsg");
     AutoThread *autoThread=new AutoThread(AutoThread::THREAD_TYPE_XIANJIE);
     connect(autoThread,SIGNAL(returnMsg(ThreadMsg)),this,SLOT(receiveAutoThreadMsg(ThreadMsg)));
     autoThread->start();
+    */
 }
 
 
@@ -213,82 +223,6 @@ void MainWindow::on_testBtn_clicked()
 
 
 
-//打劫刷新按钮
-void MainWindow::on_plunder_ref_btn_clicked()
-{
-
-
-    ::SendMessage(hWnd,WM_LBUTTONDOWN,MK_LBUTTON,MAKELONG(681,587));
-    Sleep(50);
-    ::SendMessage(hWnd,WM_LBUTTONUP,MK_LBUTTON,MAKELONG(681,587));
-    Sleep(100);
-
-    return;
-
-    PlunderService* plunderService=new PlunderService();
-
-
-    for(int i=0;i<10;i++){
-        QString playerValue=plunderService->getPlayerValue(i);
-        qDebug()<<playerValue;
-
-        ::SendMessage(hWnd,WM_LBUTTONDOWN,MK_LBUTTON,MAKELONG(941,153+33*i));
-        Sleep(50);
-        ::SendMessage(hWnd,WM_LBUTTONUP,MK_LBUTTON,MAKELONG(941,153+33*i));
-        Sleep(100);
-
-
-        ::SendMessage(hWnd,WM_LBUTTONDOWN,MK_LBUTTON,MAKELONG(992,181+33*i));
-        Sleep(50);
-        ::SendMessage(hWnd,WM_LBUTTONUP,MK_LBUTTON,MAKELONG(992,181+33*i));
-        Sleep(2000);
-
-
-
-        QString playerName=plunderService->getPlayerName();
-        qDebug()<<playerName;
-
-
-        FontCodeDao* fontCodeDao=new FontCodeDao();
-        fontCodeDao->AddPlayer("玩家名字",playerName,playerValue);
-
-
-        ::SendMessage(hWnd,WM_LBUTTONDOWN,MK_LBUTTON,MAKELONG(981,80));
-        Sleep(50);
-        ::SendMessage(hWnd,WM_LBUTTONUP,MK_LBUTTON,MAKELONG(981,80));
-        Sleep(2000);
-
-
-    }
-
-
-}
-
-//打劫第一个人
-void MainWindow::on_plunder_btn_1_clicked()
-{
-
-    int x=1086;
-    int y=259;
-
-    ::SendMessage(hWnd,WM_LBUTTONDOWN,MK_LBUTTON,MAKELONG(x,y));
-    Sleep(50);
-    ::SendMessage(hWnd,WM_LBUTTONUP,MK_LBUTTON,MAKELONG(x,y));
-    Sleep(500);
-
-    ::SendMessage(hWnd,WM_LBUTTONDOWN,MK_LBUTTON,MAKELONG(717,431));
-    Sleep(50);
-    ::SendMessage(hWnd,WM_LBUTTONUP,MK_LBUTTON,MAKELONG(717,431));
-    Sleep(200);
-    ::SendMessage(hWnd,WM_LBUTTONDOWN,MK_LBUTTON,MAKELONG(717,431));
-    Sleep(50);
-    ::SendMessage(hWnd,WM_LBUTTONUP,MK_LBUTTON,MAKELONG(717,431));
-
-
-
-}
-
-
 
 //隐藏窗口
 void MainWindow::on_hideBtn_clicked()
@@ -301,26 +235,7 @@ void MainWindow::on_autoJibanBtn_clicked()
     huoying_jiban_auto_start();
 }
 
-void MainWindow::on_dajieEdit_textChanged(const QString &arg1)
-{
-    if(arg1=="F"){
-        on_plunder_ref_btn_clicked();
 
-    }
-    else if(arg1=="f"){
-        on_plunder_ref_btn_clicked();
-    }
-    else if(arg1=="A"){
-        on_plunder_btn_1_clicked();
-    }
-    else if(arg1=="a"){
-        on_plunder_btn_1_clicked();
-    }
-
-
-
-    ui->dajieEdit->setText("");
-}
 
 /*
  *
@@ -333,7 +248,7 @@ void MainWindow::on_zuduiBtn_clicked()
     m_systemTray->showMessage("信息","开始组队",QSystemTrayIcon::Information,5000);
 
     qRegisterMetaType<ThreadMsg>("ThreadMsg");
-    AutoThread *autoThread=new AutoThread(AutoThread::THREAD_TYPE_ZUDUI);
+    AutoThread *autoThread=new AutoThread(AutoThread::THREAD_TYPE_ZUDUI,m_point);
 
     connect(autoThread,SIGNAL(returnMsg(ThreadMsg)),this,SLOT(receiveAutoThreadMsg(ThreadMsg)));
     autoThread->start();
@@ -348,7 +263,9 @@ void MainWindow::huoying_jiban_auto_start(){
 
     m_systemTray->showMessage("信息","开始羁绊",QSystemTrayIcon::Information,5000);
     qRegisterMetaType<ThreadMsg>("ThreadMsg");
-    AutoThread *autoThread=new AutoThread(AutoThread::THREAD_TYPE_JIBAN);
+
+
+    AutoThread *autoThread=new AutoThread(AutoThread::THREAD_TYPE_JIBAN,m_point);
     connect(autoThread,SIGNAL(returnMsg(ThreadMsg)),this,SLOT(receiveAutoThreadMsg(ThreadMsg)));
     autoThread->start();
 
@@ -555,7 +472,7 @@ void MainWindow::on_qiangzheBtn_clicked()
 {
     m_systemTray->showMessage("信息","开始强者",QSystemTrayIcon::Information,5000);
     qRegisterMetaType<ThreadMsg>("ThreadMsg");
-    AutoThread *autoThread=new AutoThread(AutoThread::THREAD_TYPE_QIANGZHE);
+    AutoThread *autoThread=new AutoThread(AutoThread::THREAD_TYPE_QIANGZHE,m_point);
     connect(autoThread,SIGNAL(returnMsg(ThreadMsg)),this,SLOT(receiveAutoThreadMsg(ThreadMsg)));
     autoThread->start();
 }
@@ -564,7 +481,7 @@ void MainWindow::on_mmdatiBtn_clicked()
 {
     m_systemTray->showMessage("信息","开始喵喵答题",QSystemTrayIcon::Information,5000);
     qRegisterMetaType<ThreadMsg>("ThreadMsg");
-    AutoThread *autoThread=new AutoThread(AutoThread::THREAD_TYPE_WENDA);
+    AutoThread *autoThread=new AutoThread(AutoThread::THREAD_TYPE_WENDA,m_point);
     connect(autoThread,SIGNAL(returnMsg(ThreadMsg)),this,SLOT(receiveAutoThreadMsg(ThreadMsg)));
     autoThread->start();
 
