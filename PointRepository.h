@@ -9,13 +9,15 @@ class PointRepository
 {
 public:
     PointRepository();
-    PointRepository(QString winSize);
+
 
 
 
     PointEntity *point() const;
     void setPoint(PointEntity *point);
 
+
+    QString init(QString winSize);
 private:
     PointEntity *m_point;
 

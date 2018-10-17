@@ -64,7 +64,7 @@ void AutoThread::run(){
             Sleep(1000);
 
             msg.setOperateType(OP_TYPE_MOUSE_L_CLICK);
-            msg.setMsgString(m_point->jiban_kaishizhandou);
+            msg.setMsgString(m_point->jiban_kaishipipei);
             msg.setShowInfo("点击开始羁绊");
             emit returnMsg(msg);
             Sleep(10*1000);

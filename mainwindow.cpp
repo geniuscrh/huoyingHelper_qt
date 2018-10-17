@@ -28,6 +28,8 @@ void MainWindow::initHwnd(){
     mainHWnd=::FindWindow(NULL,L"火影忍者online");
 
 
+
+
     bool isWebkit=false  ;
 
 
@@ -38,11 +40,8 @@ void MainWindow::initHwnd(){
             hWnd = FindWindowEx(mainHWnd, hWnd, L"CefBrowserWindow", NULL);
         }
 
-
         hWnd = FindWindowEx(hWnd, NULL, L"Chrome_WidgetWin_0", NULL);
         hWnd = FindWindowEx(hWnd, NULL, L"Chrome_RenderWidgetHostHWND", NULL);
-
-
 
     }else{
         hWnd = FindWindowEx(mainHWnd, NULL, L"iecontainerclass", NULL);
@@ -73,16 +72,22 @@ void MainWindow::initHwnd(){
         m_systemTray->showMessage("信息","无法获取hWnd",QSystemTrayIcon::Information,5000);
         return;
     }else{
-        //this->hide();
+        m_systemTray->show();
+
         LPRECT lpRect;
         GetWindowRect(hWnd,lpRect);
 
         QString winSize=QString::number(lpRect->right-lpRect->left)+"*"+QString::number(lpRect->bottom-lpRect->top);
-        PointRepository *point_rep=new PointRepository(winSize);
+        PointRepository *point_rep=new PointRepository();
+        QString rec=point_rep->init(winSize);
+
+        m_systemTray->showMessage("信息",rec,QSystemTrayIcon::Information,5000);
         m_point=point_rep->point();
 
-        m_systemTray->show();
-        m_systemTray->showMessage("信息","获取hWnd",QSystemTrayIcon::Information,5000);
+
+
+
+        //m_systemTray->showMessage("信息","获取hWnd",QSystemTrayIcon::Information,5000);
     }
 }
 
@@ -528,4 +533,9 @@ void MainWindow::on_openDirBtn_clicked()
 {
     QString youFilePath=QDir::currentPath();
     QDesktopServices::openUrl(QUrl(youFilePath,QUrl::TolerantMode));
+}
+
+void MainWindow::on_setWinSizeBtn_clicked()
+{
+    MoveWindow(mainHWnd,100,100,1348,768,true);
 }

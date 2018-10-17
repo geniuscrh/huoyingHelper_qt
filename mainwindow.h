@@ -80,6 +80,8 @@ private slots:
 
     void on_openDirBtn_clicked();
 
+    void on_setWinSizeBtn_clicked();
+
 public slots:
 
     void receiveAutoThreadMsg(ThreadMsg msg);

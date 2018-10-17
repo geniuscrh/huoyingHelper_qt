@@ -13,7 +13,7 @@ public:
     QString zuidui_jiangli;
     QString zuidui_7w;
     QString jiban_zhandoujieguo;
-    QString jiban_kaishizhandou;
+    QString jiban_kaishipipei;
 
     QString qiangzhe_tongguanjiangli;
     QString qiangzhe_qiangzhejianglin;
