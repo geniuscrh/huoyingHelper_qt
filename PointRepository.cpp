@@ -52,7 +52,7 @@ QString PointRepository::init(QString winSize)
         m_point->common_zhandoujieguo="666,444";
 
         //组队
-        m_point->zuidui_jiangli="950,615";
+        m_point->zuidui_jiangli="996,610";
         m_point->zuidui_7w="500,450";
 
         //羁绊

@@ -537,5 +537,6 @@ void MainWindow::on_openDirBtn_clicked()
 
 void MainWindow::on_setWinSizeBtn_clicked()
 {
-    MoveWindow(mainHWnd,100,100,1348,768,true);
+    MoveWindow(mainHWnd,0,0,1348,768,true);
+
 }

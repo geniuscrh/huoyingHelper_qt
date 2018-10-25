@@ -141,7 +141,7 @@
    <widget class="QPushButton" name="zuduiBtn">
     <property name="geometry">
      <rect>
-      <x>280</x>
+      <x>150</x>
       <y>180</y>
       <width>75</width>
       <height>23</height>
