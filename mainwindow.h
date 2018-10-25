@@ -82,6 +82,8 @@ private slots:
 
     void on_setWinSizeBtn_clicked();
 
+    void on_autoJibanJiangfenBtn_clicked();
+
 public slots:
 
     void receiveAutoThreadMsg(ThreadMsg msg);

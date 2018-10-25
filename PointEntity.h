@@ -10,10 +10,14 @@ public:
 public:
     QString common_zhandoujieguo;
     QString common_kaishizhandou;
+
     QString zuidui_jiangli;
     QString zuidui_7w;
+
     QString jiban_zhandoujieguo;
     QString jiban_kaishipipei;
+    QString jiban_jiangfen_tuichu;
+    QString jiban_jiangfen_tuichu_queren;
 
     QString qiangzhe_tongguanjiangli;
     QString qiangzhe_qiangzhejianglin;

@@ -20,6 +20,7 @@ public:
     static const int THREAD_TYPE_QIANGZHE=1003;//强者
     static const int THREAD_TYPE_WENDA=1004;//喵喵问答
     static const int THREAD_TYPE_XIANJIE=1005;//仙界
+    static const int THREAD_TYPE_JIBAN_JIANGFEN=1006;//羁绊降分
 
 
 

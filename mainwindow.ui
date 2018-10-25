@@ -116,7 +116,7 @@
     <property name="geometry">
      <rect>
       <x>30</x>
-      <y>180</y>
+      <y>140</y>
       <width>75</width>
       <height>23</height>
      </rect>
@@ -141,8 +141,8 @@
    <widget class="QPushButton" name="zuduiBtn">
     <property name="geometry">
      <rect>
-      <x>150</x>
-      <y>180</y>
+      <x>40</x>
+      <y>230</y>
       <width>75</width>
       <height>23</height>
      </rect>
@@ -154,7 +154,7 @@
    <widget class="QPushButton" name="qiangzheBtn">
     <property name="geometry">
      <rect>
-      <x>150</x>
+      <x>130</x>
       <y>230</y>
       <width>75</width>
       <height>23</height>
@@ -168,7 +168,7 @@
     <property name="geometry">
      <rect>
       <x>30</x>
-      <y>230</y>
+      <y>270</y>
       <width>75</width>
       <height>23</height>
      </rect>
@@ -188,6 +188,19 @@
     </property>
     <property name="text">
      <string>当前目录</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="autoJibanJiangfenBtn">
+    <property name="geometry">
+     <rect>
+      <x>130</x>
+      <y>140</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>羁绊降分</string>
     </property>
    </widget>
   </widget>

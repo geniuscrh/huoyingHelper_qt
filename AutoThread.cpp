@@ -73,6 +73,47 @@ void AutoThread::run(){
 
     }
 
+    //进行羁绊降分
+    else if(m_type==THREAD_TYPE_JIBAN_JIANGFEN){
+        ThreadMsg msg;
+        msg.setMsgType(m_type);
+
+        while(1>0){
+            msg.setOperateType(OP_TYPE_MOUSE_L_CLICK);
+            msg.setMsgString(m_point->common_zhandoujieguo);
+            msg.setShowInfo("点击战斗结果");
+            emit returnMsg(msg);
+            Sleep(2000);
+
+
+            msg.setOperateType(OP_TYPE_MOUSE_L_CLICK);
+            msg.setMsgString(m_point->jiban_zhandoujieguo);
+            msg.setShowInfo("点击段位结果");
+            emit returnMsg(msg);
+            Sleep(1000);
+
+            msg.setOperateType(OP_TYPE_MOUSE_L_CLICK);
+            msg.setMsgString(m_point->jiban_kaishipipei);
+            msg.setShowInfo("点击开始羁绊");
+            emit returnMsg(msg);
+            Sleep(5*1000);
+
+            msg.setOperateType(OP_TYPE_MOUSE_L_CLICK);
+            msg.setMsgString(m_point->jiban_jiangfen_tuichu);
+            msg.setShowInfo("点击撤退");
+            emit returnMsg(msg);
+            Sleep(2*1000);
+
+            msg.setOperateType(OP_TYPE_MOUSE_L_CLICK);
+            msg.setMsgString(m_point->jiban_jiangfen_tuichu_queren);
+            msg.setShowInfo("撤退确认");
+            emit returnMsg(msg);
+            Sleep(2*1000);
+        }
+
+
+    }
+
     //进行强者--已更新
     else if(m_type==THREAD_TYPE_QIANGZHE){
         ThreadMsg msg;

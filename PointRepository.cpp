@@ -56,8 +56,12 @@ QString PointRepository::init(QString winSize)
         m_point->zuidui_7w="500,450";
 
         //羁绊
-        m_point->jiban_zhandoujieguo="666,432";
+        m_point->jiban_zhandoujieguo="680,480";
         m_point->jiban_kaishipipei="555,611";
+
+        //羁绊降分
+        m_point->jiban_jiangfen_tuichu="1307,644";
+        m_point->jiban_jiangfen_tuichu_queren="1134,582";
 
         //强者
         m_point->qiangzhe_tongguanjiangli="666,444";

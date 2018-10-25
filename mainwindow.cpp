@@ -540,3 +540,19 @@ void MainWindow::on_setWinSizeBtn_clicked()
     MoveWindow(mainHWnd,0,0,1348,768,true);
 
 }
+
+/*
+ * 羁绊降分
+ *
+ * */
+void MainWindow::on_autoJibanJiangfenBtn_clicked()
+{
+    m_systemTray->showMessage("信息","羁绊降分",QSystemTrayIcon::Information,5000);
+    qRegisterMetaType<ThreadMsg>("ThreadMsg");
+
+
+    AutoThread *autoThread=new AutoThread(AutoThread::THREAD_TYPE_JIBAN_JIANGFEN,m_point);
+    connect(autoThread,SIGNAL(returnMsg(ThreadMsg)),this,SLOT(receiveAutoThreadMsg(ThreadMsg)));
+    autoThread->start();
+
+}
