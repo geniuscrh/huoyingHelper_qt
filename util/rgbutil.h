@@ -18,6 +18,7 @@ public:
 
     QStringList searchRGBList(QImage* bg,QStringList pointList,int width,int height,QRgb findRGB1,QRgb findRGB2,int sep_pixel);
     QString maxRGBList(QStringList countRGBList);
+    QString minRGBList(QStringList countRGBList);
     QString countRGB(QImage* bg,int start_x,int start_y,int width,int height,QRgb findRGB1,QRgb findRGB2,int sep_pixel);
 
     QString getRGBArray(QImage* bg,int w,int h,QRgb trueRgb);

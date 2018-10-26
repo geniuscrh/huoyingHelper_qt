@@ -327,6 +327,10 @@ void MainWindow::receiveAutoThreadMsg(ThreadMsg msg)
         QString curtime_str = time.toString("yyyyMMddhhmmss");
         QString imageFileName;
 
+        /**
+         *设置是否测试模式！！！！！！！！！
+         * @brief is_test_mode
+         */
         bool is_test_mode=false;
 
 
@@ -336,9 +340,14 @@ void MainWindow::receiveAutoThreadMsg(ThreadMsg msg)
             screen->grabWindow(0).save(imageFileName,"bmp");
             bg = new QImage(imageFileName);
         }else{
+
             imageFileName="test ("+QString::number(test_index)+").bmp";
+
+            QFile *f=new QFile(imageFileName);
+
             bg = new QImage(imageFileName);
-            qDebug()<<"测试截图:"+imageFileName;
+
+            qDebug()<<"测试截图:"+imageFileName+"存在："+QString::number(f->exists());
             test_index=test_index+1;
         }
 
@@ -346,76 +355,46 @@ void MainWindow::receiveAutoThreadMsg(ThreadMsg msg)
 
         RGBUtil* rgbUtil=new RGBUtil();
         QRgb findRgb1,findRgb2;
-        findRgb1=qRgb(230,45,30);
-        findRgb2=qRgb(29,12,0);
-        int rec_width=200;
-        int rec_height=200;
+
+        findRgb1=qRgb(146,135,76);
+        findRgb2=qRgb(153,151,38);
+        //设置采集范围
+        int rec_width=290;
+        int rec_height=250;
         int sep_pixel=5;
         QString painter_text="";
 
 
         QStringList pointList;
-        pointList.append("372,330");
-        pointList.append("1092,314");
-        pointList.append("371,615");
-        pointList.append("1088,618");
+        pointList.append("500,367,700,600");
+        pointList.append("1200,365,1360,592");
+        pointList.append("560,650,710,888");
+        pointList.append("1137,628,1320,898");
 
         //获取范围内的RGB的list
         QStringList countRGBList=rgbUtil->searchRGBList(bg,pointList,rec_width,rec_height,findRgb1,findRgb2,sep_pixel);
-        //RGB list中最大数值
-        QString maxRGB=rgbUtil->maxRGBList(countRGBList);
-        m_systemTray->showMessage("信息","最佳红点分布："+maxRGB,QSystemTrayIcon::Information,2000);
-        qDebug()<<"最佳红点分布："+maxRGB;
-
-        for(QString t:countRGBList){
-            painter_text=painter_text+"("+t+")";
-        }
-        painter_text=painter_text+"最佳："+maxRGB;
-
+        //RGB list中最小数值
+        QString minRGB=rgbUtil->minRGBList(countRGBList);
+        m_systemTray->showMessage("信息","最佳分布："+minRGB,QSystemTrayIcon::Information,2000);
+        qDebug()<<"最佳分布："+minRGB;
 
 
 
         //范围内最佳位置
         QPoint best_point;
-        QStringList tempList=maxRGB.split("|");
-        int total_count_num=tempList.at(0).toInt();
+        for(QString point:pointList){
+            if(point.contains(minRGB.split("|").at(1))){
 
-        if(total_count_num<=3){
-            m_systemTray->showMessage("信息","红点分布<=3,不进行点位选择",QSystemTrayIcon::Information,2000);
-            qDebug()<<"红点分布<=3,不进行点位选择";
-            painter_text=painter_text+"红点分布<=3,不进行点位选择";
-            best_point.setX(0);
-            best_point.setY(0);
+                int best_x=point.split(",").at(2).toInt();
+                int best_y=point.split(",").at(3).toInt();
 
-        }else{
-            QStringList point=tempList.at(1).split(",");
-            int point_x=point.at(0).toInt();
-            int point_y=point.at(1).toInt();
+                //扣除窗口顶部高度
+                best_y=best_y-70;
 
-
-
-            QStringList count_list=tempList.at(2).split(",");
-            int count_a=count_list.at(0).toInt();
-            int count_b=count_list.at(1).toInt();
-            int count_c=count_list.at(2).toInt();
-            int count_d=count_list.at(3).toInt();
-
-
-            int best_x=point_x+rec_width/2+rec_width*(count_b+count_d-count_a-count_c)/total_count_num/4;
-            int best_y=point_y+rec_height/2+rec_height*(count_c+count_d-count_a-count_b)/total_count_num/4+70;
-
-            //扣除窗口顶部高度
-            best_y=best_y-70;
-
-
-            best_point.setX(best_x);
-            best_point.setY(best_y);
-            qDebug()<<"最佳红点位置："+QString::number(best_x)+","+QString::number(best_y);
-            m_systemTray->showMessage("信息","最佳红点位置："+QString::number(best_x)+","+QString::number(best_y),QSystemTrayIcon::Information,5000);
-            qDebug()<<"--------------------------";
+                best_point.setX(best_x);
+                best_point.setY(best_y);
+            }
         }
-
-
 
 
         if(best_point.x()==0&&best_point.y()==0){
@@ -429,6 +408,7 @@ void MainWindow::receiveAutoThreadMsg(ThreadMsg msg)
 
 
          if(is_test_mode){
+
              QPainter * painter = new QPainter();
              painter->begin (bg);
 
@@ -440,7 +420,13 @@ void MainWindow::receiveAutoThreadMsg(ThreadMsg msg)
              font.setFamily("Microsoft YaHei");
              font.setPointSize(13);
              painter->setFont(font);
-             painter->drawText(350, 660, painter_text);
+
+             for(int i=0;i<countRGBList.length();i++){
+                 painter->drawText(350, 660+i*20, countRGBList.at(i));
+             }
+
+
+
 
 
 

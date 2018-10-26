@@ -90,36 +90,38 @@ QString RGBUtil::maxRGBList(QStringList countRGBList)
     return maxRGB;
 }
 
+QString RGBUtil::minRGBList(QStringList countRGBList)
+{
+    int min_num=99999999999;
+    QString minRGB="";
+    for(QString countRGB:countRGBList){
+        int countRgbNum=countRGB.split("|").at(0).toInt();
+        if(countRgbNum<min_num){
+            min_num=countRgbNum;
+            minRGB=countRGB;
+        }
+    }
+
+    return minRGB;
+}
+
 
 
 QString RGBUtil::countRGB(QImage *bg, int start_x, int start_y, int width, int height, QRgb findRGB1,QRgb findRGB2, int sep_pixel)
 {
     int  count_num=0;
-    int  count_num_a=0,count_num_b=0,count_num_c=0,count_num_d=0;
+
 
     for(int x=0;x<=width;x=x+sep_pixel){
         for(int y=0;y<=height;y=y+sep_pixel){
             QRgb rgb=bg->pixel(start_x+x,start_y+y);
             if(matchRGB(rgb,findRGB1,20)||matchRGB(rgb,findRGB2,20)){
-                if(x<(width/2)){
-                    if(y<(height/2)){
-                        count_num_a++;
-                    }else{
-                        count_num_c++;
-                    }
-                }else{
-                    if(y<(height/2)){
-                        count_num_b++;
-                    }else{
-                        count_num_d++;
-                    }
-                }
                 count_num++;
             }
         }
     }
 
-    return QString::number(count_num)+"|"+QString::number(start_x)+","+QString::number(start_y)+"|"+QString::number(count_num_a)+","+QString::number(count_num_b)+","+QString::number(count_num_c)+","+QString::number(count_num_d);
+    return QString::number(count_num)+"|"+QString::number(start_x)+","+QString::number(start_y);
 
 }
 
