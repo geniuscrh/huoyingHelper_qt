@@ -133,7 +133,7 @@ void AutoThread::run(){
             emit returnMsg(msg);
             Sleep(500);
             emit returnMsg(msg);
-            Sleep(1000);
+            Sleep(1500);
 
             msg.setOperateType(OP_TYPE_MOUSE_L_CLICK);
             msg.setMsgString(m_point->qiangzhe_qiangzhejianglin);
@@ -145,7 +145,7 @@ void AutoThread::run(){
             msg.setMsgString(m_point->qiangzhe_axiuluo);
             msg.setShowInfo("点击阿修罗");
             emit returnMsg(msg);
-            Sleep(500);
+            Sleep(1000);
 
             msg.setOperateType(OP_TYPE_MOUSE_L_CLICK);
             msg.setMsgString(m_point->qiangzhe_jinru);
@@ -157,7 +157,7 @@ void AutoThread::run(){
             msg.setMsgString(m_point->common_kaishizhandou);
             msg.setShowInfo("点击开始战斗");
             emit returnMsg(msg);
-            Sleep(10*1000);
+            Sleep(5*1000);
         }
 
 
