@@ -139,17 +139,19 @@ void AutoThread::run(){
             msg.setMsgString(m_point->qiangzhe_qiangzhejianglin);
             msg.setShowInfo("点击强者降临");
             emit returnMsg(msg);
-            Sleep(1000);
+            Sleep(1500);
 
             msg.setOperateType(OP_TYPE_MOUSE_L_CLICK);
             msg.setMsgString(m_point->qiangzhe_axiuluo);
             msg.setShowInfo("点击阿修罗");
             emit returnMsg(msg);
-            Sleep(1000);
+            Sleep(1500);
 
             msg.setOperateType(OP_TYPE_MOUSE_L_CLICK);
             msg.setMsgString(m_point->qiangzhe_jinru);
-            msg.setShowInfo("点击进入");
+            msg.setShowInfo("点击进入");      
+            emit returnMsg(msg);
+            Sleep(500);
             emit returnMsg(msg);
             Sleep(6000);
 
