@@ -4,6 +4,8 @@
 #
 #-------------------------------------------------
 
+MY_PROJECT_VERSION=1.0
+
 QT       += core gui
 
 QT+=sql
@@ -25,7 +27,11 @@ SOURCES += main.cpp\
     AutoThread.cpp \
     ThreadMsg.cpp \
     PointRepository.cpp \
-    PointEntity.cpp
+    PointEntity.cpp \
+    common/BaseDao.cpp \
+    common/TableViewService.cpp \
+    point/PointTableViewService.cpp \
+    PointWin.cpp
 
 HEADERS+=  mainwindow.h \
     util/rgbutil.h \
@@ -36,14 +42,29 @@ HEADERS+=  mainwindow.h \
     AutoThread.h \
     ThreadMsg.h \
     PointRepository.h \
-    PointEntity.h
+    PointEntity.h \
+    plunder/widget/playerNameChangeForm.cpp.EW8108 \
+    common/BaseDao.h \
+    point/PointRepository.h \
+    common/TableViewService.h \
+    point/PointTableViewService.h \
+    PointWin.h
 
 FORMS    += mainwindow.ui \
     plunder/widget/playerInfoForm.ui \
-    plunder/widget/playerNameChangeForm.ui
+    plunder/widget/playerNameChangeForm.ui \
+    PointWin.ui
 
 RESOURCES += \
     image.qrc
+
+DISTFILES += \
+    icon.ico \
+    .gitattributes \
+    .gitignore \
+    icon.rc \
+    README.md \
+    common
 
 
 

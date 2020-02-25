@@ -6,13 +6,10 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
     initSystemTray();
 
-    //初始化
-    point_table_serv=new PointTableViewService(ui->pointTable);
-    point_rep= new PointRepository();
 
-    point_table_serv->initPointTable();
 
 
 
@@ -26,58 +23,18 @@ MainWindow::~MainWindow()
 }
 
 
-void MainWindow::on_testBtn_clicked()
-{
-    my_debug("获取自动化");
-
-    QList<PointEntity*> *point_list=point_rep->list_btn(ui->cur_win_size_text->text());
-
-    int row_num=4;
-
-    for(int i=0;i<point_list->length();i++){
-        PointEntity* p=point_list->at(i);
-        QPushButton *btn=new QPushButton(p->btn_text,ui->groupBox_2);
-        btn->setToolTip(p->win_size);
-        btn->move(20+120*(i%row_num),20+40*(i/row_num));
-        btn->show();
-
-        connect(btn,SIGNAL(clicked()),this,SLOT(on_opBtn_clicked()));
-
-    }
-}
-
-void MainWindow::on_opBtn_clicked()
-{
-   QPushButton *btn=(QPushButton*)sender();
-
-   //加载数据到table中
-   QList<PointEntity*> *point_list=point_rep->list(btn->toolTip(),btn->text());
-   point_table_serv->addPointItem(point_list);
-
-   //显示当前自动化名称
-   ui->cur_btn_text->setText(btn->text());
-
-
-
-
-}
-
-
-void MainWindow::on_get_hWnd_btn_clicked()
-{
-   initHwnd();
-
-}
-
 /*
  * 获取窗口Hwnd
  *
  * */
 
 void MainWindow::initHwnd(){
+
+    ui->groupBox_2->setVisible(false);
+
     mainHWnd=::FindWindow(NULL,L"火影忍者online");
 
-    bool isWebkit=false;
+    bool isWebkit=false  ;
 
 
     if(isWebkit){
@@ -99,6 +56,8 @@ void MainWindow::initHwnd(){
             hWnd = FindWindowEx(mainHWnd, hWnd, L"iecontainerclass", NULL);
 
         }
+
+
         hWnd = FindWindowEx(hWnd, NULL, L"AtlAxWin120", NULL);
         hWnd = FindWindowEx(hWnd, NULL, L"Shell Embedding", NULL);
         hWnd = FindWindowEx(hWnd, NULL, L"Shell DocObject View", NULL);
@@ -108,20 +67,34 @@ void MainWindow::initHwnd(){
     }
 
 
-
     if(hWnd==NULL) {
         m_systemTray->show();
         m_systemTray->showMessage("信息","无法获取hWnd",QSystemTrayIcon::Information,5000);
         return;
     }else{
+        m_systemTray->show();
+
         LPRECT lpRect;
-        GetWindowRect(mainHWnd,lpRect);
+        GetWindowRect(hWnd,lpRect);
 
         QString winSize=QString::number(lpRect->right-lpRect->left)+"*"+QString::number(lpRect->bottom-lpRect->top);
-        ui->cur_win_size_text->setText(winSize);
-        qDebug()<<"获取窗口成功:"+winSize;
-        m_systemTray->showMessage("信息","获取hWnd",QSystemTrayIcon::Information,5000);
+        PointRepository *point_rep=new PointRepository();
+        QString rec=point_rep->init(winSize);
 
+        qDebug()<<rec;
+
+        if(!rec.contains("无该")){
+            ui->groupBox_2->setVisible(true);
+        }
+
+        m_systemTray->showMessage("信息",rec,QSystemTrayIcon::Information,5000);
+        m_point=point_rep->point();
+
+        qDebug()<<"获取窗口成功！";
+
+
+
+        //m_systemTray->showMessage("信息","获取hWnd",QSystemTrayIcon::Information,5000);
     }
 }
 
@@ -149,6 +122,13 @@ void MainWindow::initSystemTray(){
 
 
     m_action =new QAction(m_menu);
+    m_action->setIcon(QIcon("://resource/image/ico/MSN_48px_1121664_easyicon.net.png"));
+    m_action->setText("自动羁绊");
+    connect(m_action,&QAction::triggered,this,&MainWindow::huoying_jiban_auto_start);
+    m_menu->addAction(m_action);
+
+    m_menu->addSeparator();
+
 
 
     m_menu->addSeparator();
@@ -162,8 +142,39 @@ void MainWindow::initSystemTray(){
     m_systemTray->setContextMenu(m_menu);
 
 
-
 }
+
+
+
+
+
+
+
+
+
+
+void MainWindow::on_autoXianjieBtn_clicked()
+{
+
+    huoying_xianjie_auto_start();
+}
+
+/*
+ *
+ * 开始自动仙界流程
+ *
+ * */
+void MainWindow::huoying_xianjie_auto_start(){
+
+    /*
+    m_systemTray->showMessage("信息","开始仙界",QSystemTrayIcon::Information,5000);
+    qRegisterMetaType<ThreadMsg>("ThreadMsg");
+    AutoThread *autoThread=new AutoThread(AutoThread::THREAD_TYPE_XIANJIE);
+    connect(autoThread,SIGNAL(returnMsg(ThreadMsg)),this,SLOT(receiveAutoThreadMsg(ThreadMsg)));
+    autoThread->start();
+    */
+}
+
 
 
 
@@ -188,14 +199,6 @@ void MainWindow::simulated_keyboard(QString key){
     }
 }
 
-void MainWindow::my_debug(QString s)
-{
-
-    ui->my_debug_text->append(s);
-}
-
-
-
 
 void MainWindow::testFunction(){
     QMessageBox::critical(0, "信息", "测试");
@@ -203,10 +206,91 @@ void MainWindow::testFunction(){
 
 
 
+
+
+void MainWindow::showPlayerNameChangeForm(){
+    //更新排行榜名字
+    playerNameChangeForm= new PlayerNameChangeForm();
+    playerNameChangeForm->show();
+
+}
+
+void MainWindow::saveBoardPlayer(){
+    //保存排行榜 玩家 战力
+    PlunderService* plunderService=new PlunderService();
+    plunderService->saveBoardPlayer();
+    m_systemTray->showMessage("信息","获取保存成功",QSystemTrayIcon::Information,5000);
+}
+
+void MainWindow::plunderPlay(){
+    //劫镖,获取玩家信息
+    PlunderService* plunderService=new PlunderService();
+    plunderService->plunderPlayer();
+
+}
+
+void MainWindow::on_testBtn_clicked()
+{
+    PointRepository *point_rep= new PointRepository();
+    QList<PointEntity*> *point_list=point_rep->list_btn("1918*970");
+
+    for(int i=0;i<point_list->length();i++){
+        PointEntity* p=point_list->at(i);
+        qDebug()<<p->btn_text;
+    }
+
+
+    initHwnd();
+}
+
+
+
+
 //隐藏窗口
 void MainWindow::on_hideBtn_clicked()
 {
     this->hide();
+}
+
+void MainWindow::on_autoJibanBtn_clicked()
+{
+    huoying_jiban_auto_start();
+}
+
+
+
+/*
+ *
+ * 开始自动组队流程
+ *
+ * */
+
+void MainWindow::on_zuduiBtn_clicked()
+{
+    m_systemTray->showMessage("信息","开始组队",QSystemTrayIcon::Information,5000);
+
+    qRegisterMetaType<ThreadMsg>("ThreadMsg");
+    AutoThread *autoThread=new AutoThread(AutoThread::THREAD_TYPE_ZUDUI,m_point);
+
+    connect(autoThread,SIGNAL(returnMsg(ThreadMsg)),this,SLOT(receiveAutoThreadMsg(ThreadMsg)));
+    autoThread->start();
+}
+
+/*
+ *
+ * 开始自动羁绊流程
+ *
+ * */
+void MainWindow::huoying_jiban_auto_start(){
+
+    m_systemTray->showMessage("信息","开始羁绊",QSystemTrayIcon::Information,5000);
+    qRegisterMetaType<ThreadMsg>("ThreadMsg");
+
+
+    AutoThread *autoThread=new AutoThread(AutoThread::THREAD_TYPE_JIBAN,m_point);
+    connect(autoThread,SIGNAL(returnMsg(ThreadMsg)),this,SLOT(receiveAutoThreadMsg(ThreadMsg)));
+    autoThread->start();
+
 }
 
 
@@ -218,10 +302,12 @@ void MainWindow::receiveAutoThreadMsg(ThreadMsg msg)
     if(msg.getOperateType()==AutoThread::OP_TYPE_MOUSE_L_CLICK){
 
         QStringList mouse_p=msg.getMsgString().split(",");
+
         int x=mouse_p.at(0).toInt();
         int y=mouse_p.at(1).toInt();
+
         simulated_mouse("leftClick",x,y);
-        my_debug("自动化:"+msg.getShowInfo());
+
         m_systemTray->showMessage("信息",msg.getShowInfo()+":"+QString::number(x)+","+QString::number(y),QSystemTrayIcon::Information,5000);
     }
     else if(msg.getOperateType()==AutoThread::OP_TYPE_KEYBOARD){
@@ -392,13 +478,20 @@ void MainWindow::receiveAutoThreadMsg(ThreadMsg msg)
 
 }
 
-
+void MainWindow::on_qiangzheBtn_clicked()
+{
+    m_systemTray->showMessage("信息","开始强者",QSystemTrayIcon::Information,5000);
+    qRegisterMetaType<ThreadMsg>("ThreadMsg");
+    AutoThread *autoThread=new AutoThread(AutoThread::THREAD_TYPE_QIANGZHE,m_point);
+    connect(autoThread,SIGNAL(returnMsg(ThreadMsg)),this,SLOT(receiveAutoThreadMsg(ThreadMsg)));
+    autoThread->start();
+}
 
 void MainWindow::on_mmdatiBtn_clicked()
 {
     m_systemTray->showMessage("信息","开始喵喵答题",QSystemTrayIcon::Information,5000);
     qRegisterMetaType<ThreadMsg>("ThreadMsg");
-    autoThread=new AutoThread(AutoThread::THREAD_TYPE_WENDA,m_point);
+    AutoThread *autoThread=new AutoThread(AutoThread::THREAD_TYPE_WENDA,m_point);
     connect(autoThread,SIGNAL(returnMsg(ThreadMsg)),this,SLOT(receiveAutoThreadMsg(ThreadMsg)));
     autoThread->start();
 
@@ -449,68 +542,22 @@ void MainWindow::on_openDirBtn_clicked()
 
 void MainWindow::on_setWinSizeBtn_clicked()
 {
-    MoveWindow(mainHWnd,0,0,1366,728,true);
+    MoveWindow(mainHWnd,0,0,1348,768,true);
+
 }
 
-
-void MainWindow::on_setPointsBtn_clicked()
+/*
+ * 羁绊降分
+ *
+ * */
+void MainWindow::on_autoJibanJiangfenBtn_clicked()
 {
-    PointWin *pointWin=new PointWin();
-    pointWin->show();
-    pointWin->setGeometry(0,0,100,100);
-}
-
-void MainWindow::on_startThreadBtn_clicked()
-{
-    QString win_size=ui->cur_win_size_text->text();
-    QString btn_text=ui->cur_btn_text->text();
-
-    QList<PointEntity*> *point_list=point_rep->list(win_size,btn_text);
-
-    //开始运行
-    m_systemTray->showMessage("信息",btn_text,QSystemTrayIcon::Information,5000);
+    m_systemTray->showMessage("信息","羁绊降分",QSystemTrayIcon::Information,5000);
     qRegisterMetaType<ThreadMsg>("ThreadMsg");
-    autoThread=new AutoThread(point_list);
 
+
+    AutoThread *autoThread=new AutoThread(AutoThread::THREAD_TYPE_JIBAN_JIANGFEN,m_point);
     connect(autoThread,SIGNAL(returnMsg(ThreadMsg)),this,SLOT(receiveAutoThreadMsg(ThreadMsg)));
     autoThread->start();
 
-
 }
-
-void MainWindow::on_stopThreadBtn_clicked()
-{
-    autoThread->terminate();
-    autoThread->wait();
-}
-
-void MainWindow::on_savePointsBtn_clicked()
-{
-    QList<PointEntity *> *point_list=point_table_serv->loadPointItem();
-    point_rep->save(point_list);
-
-    return;
-}
-
-
-
-void MainWindow::on_point_table_add_btn_clicked()
-{
-    QString win_size=ui->cur_win_size_text->text();
-    QString btn_text=ui->cur_btn_text->text();
-
-    point_table_serv->newRow(win_size,btn_text);
-}
-
-void MainWindow::on_point_table_del_btn_clicked()
-{
-    QString id=point_table_serv->getCurItem_ID();
-    point_rep->del(id);
-}
-
-void MainWindow::on_point_table_up_btn_clicked()
-{
-    point_table_serv->move("up");
-}
-
-

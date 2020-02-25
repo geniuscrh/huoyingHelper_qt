@@ -11,8 +11,46 @@ AutoThread::AutoThread(int type,PointEntity* point)
     this->m_point=point;
 }
 
+AutoThread::AutoThread(QList<PointEntity *> *pointList)
+{
+    m_point_list=pointList;
+}
+
 
 void AutoThread::run(){
+
+
+     ThreadMsg msg;
+
+    while(1>0) {
+        for(int i=0;i<m_point_list->length();i++){
+            PointEntity *p=m_point_list->at(i);
+            Sleep(p->timer.toInt());
+            if(p->op_type=="mouse_left"){
+                msg.setOperateType(OP_TYPE_MOUSE_L_CLICK);
+                msg.setMsgString(p->mouse_xy);
+                msg.setShowInfo(p->show_info);
+                emit returnMsg(msg);
+            }
+            else if(p->op_type=="wait_time"){
+                QTime current_time =QTime::currentTime();
+                int hour = current_time.hour();//当前的小时
+                int minute = current_time.minute();//当前的分
+                int current_time_int=hour*100+minute;
+                int wait_timer_int=p->timer.replace(":","").toInt();
+                if(wait_timer_int>current_time_int){
+
+                    qDebug()<<"时间未到,目前时间:"+QString::number(current_time_int)+",目标时间："+QString::number(wait_timer_int);
+                    qDebug()<<"wait：10秒，并且i--，继续等待";
+                    Sleep(10*1000);
+                    i--;
+                }
+            }
+
+        }
+    }
+
+    return;
 
 
     //进行组队操作

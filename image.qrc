@@ -11,5 +11,9 @@
         <file>resource/image/ico/Twitter_48px_1121699_easyicon.net.png</file>
         <file>resource/image/ico/Portal_48px_1121529_easyicon.net.png</file>
         <file>resource/image/ico/Foobar_48px_1121452_easyicon.net.png</file>
+        <file>resource/image/ico/add.png</file>
+        <file>resource/image/ico/arrow_down.png</file>
+        <file>resource/image/ico/arrow_up.png</file>
+        <file>resource/image/ico/delete.png</file>
     </qresource>
 </RCC>

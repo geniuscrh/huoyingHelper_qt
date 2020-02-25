@@ -20,6 +20,9 @@
 
 #include "PointRepository.h"
 #include "PointEntity.h"
+#include "point/PointTableViewService.h"
+#include "PointWin.h"
+
 
 namespace Ui {
 class MainWindow;
@@ -54,27 +57,21 @@ public:
     void simulated_mouse(QString type,int x,int y);
     void simulated_keyboard(QString key);
 
+    void my_debug(QString s);
 
 
 private slots:
+
+    void on_opBtn_clicked();
+
     void on_testBtn_clicked();
-
-
-
-
-
 
     void on_hideBtn_clicked();
 
-    void on_autoJibanBtn_clicked();
 
 
 
-    void on_autoXianjieBtn_clicked();
 
-    void on_zuduiBtn_clicked();
-
-    void on_qiangzheBtn_clicked();
 
     void on_mmdatiBtn_clicked();
 
@@ -82,7 +79,23 @@ private slots:
 
     void on_setWinSizeBtn_clicked();
 
-    void on_autoJibanJiangfenBtn_clicked();
+
+
+    void on_setPointsBtn_clicked();
+
+    void on_startThreadBtn_clicked();
+
+    void on_savePointsBtn_clicked();
+
+    void on_get_hWnd_btn_clicked();
+
+    void on_point_table_add_btn_clicked();
+
+    void on_point_table_del_btn_clicked();
+
+    void on_point_table_up_btn_clicked();
+
+    void on_stopThreadBtn_clicked();
 
 public slots:
 
@@ -95,8 +108,15 @@ private:
     PlayerNameChangeForm* playerNameChangeForm;
 
     PointEntity * m_point;
+    PointTableViewService *point_table_serv;
+    PointRepository *point_rep;
+
+
+    AutoThread *autoThread;
 
     int test_index=1;
+
+
 
 };
 

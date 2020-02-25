@@ -7,12 +7,14 @@
 
 #include "PointEntity.h"
 
+
 class AutoThread  : public QThread
 {
      Q_OBJECT
 public:
     AutoThread();
     AutoThread(int type,PointEntity *point);
+    AutoThread(QList<PointEntity*>* pointList);
 
     //进行类别
     static const int THREAD_TYPE_ZUDUI=1001;//组队
@@ -21,7 +23,6 @@ public:
     static const int THREAD_TYPE_WENDA=1004;//喵喵问答
     static const int THREAD_TYPE_XIANJIE=1005;//仙界
     static const int THREAD_TYPE_JIBAN_JIANGFEN=1006;//羁绊降分
-
 
 
     //操作类别
@@ -36,10 +37,8 @@ protected:
 
 private :
     int m_type;
-
     PointEntity *m_point;
-
-
+    QList<PointEntity*>* m_point_list;
 
 };
 
